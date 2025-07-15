@@ -48,10 +48,10 @@ Beyza Kilim, geleneksel Anadolu motiflerini modern dokunuşlarla sunan, el dokum
 
 ```bash
 git clone https://github.com/beyza-acikgoz/next-auth
-cd beyza-kilim
+cd next-auth
 
 # Bağımlılıkları yükle
-yarn install
+npm install
 
 # .env.local dosyasını oluştur
 cp .env.example .env.local
@@ -63,7 +63,7 @@ cp .env.example .env.local
 # NEXTAUTH_URL=
 
 # Uygulamayı çalıştır
-yarn dev
+npm run dev
 ````
 
 ---
