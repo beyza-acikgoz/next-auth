@@ -14,18 +14,18 @@ export const authOptions = {
           credentials?.username === "admin" &&
           credentials?.password === "admin"
         ) {
-          return { id: 1, name: "Admin" };
+          return { id: "1", name: "Admin", email: "admin@example.com" };
         }
         return null;
       },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  session: { strategy: "jwt" },
-  jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
   },
 };
 
 const handler = NextAuth(authOptions);
+
 export { handler as GET, handler as POST };
