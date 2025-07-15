@@ -1,47 +1,31 @@
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
-import { verifyJwtToken } from "@/lib/auth";
 
 const AUTH_PAGES = ["/login", "/register"];
-
-// Burada auth gerektiren sayfaları ekledim
 const PROTECTED_PAGES = ["/shop", "/dropshipping"];
 
-const isAuthPage = (url) => AUTH_PAGES.some((page) => url.startsWith(page));
-const isProtectedPage = (url) => PROTECTED_PAGES.some((page) => url.startsWith(page));
-
 export async function middleware(request) {
-  const { url, nextUrl, cookies } = request;
-  const token = cookies.get("token")?.value ?? null;
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+  const { pathname } = request.nextUrl;
 
-  const hasVerifiedToken = token ? await verifyJwtToken(token) : null;
-  const isAuthPageRequested = isAuthPage(nextUrl.pathname);
-  const isProtectedPageRequested = isProtectedPage(nextUrl.pathname);
+  const isAuthPage = AUTH_PAGES.some((page) => pathname.startsWith(page));
+  const isProtectedPage = PROTECTED_PAGES.some((page) => pathname.startsWith(page));
 
-  // Eğer login veya register sayfasına gidiliyorsa
-  if (isAuthPageRequested) {
-    if (!hasVerifiedToken) {
-      const response = NextResponse.next();
-      response.cookies.delete("token");
-      return response;
+  if (isAuthPage) {
+    if (token) {
+      return NextResponse.redirect(new URL("/", request.url));
     }
-    return NextResponse.redirect(new URL("/", url));
+    return NextResponse.next();
   }
 
-  // Eğer korumalı sayfalardan biriyse ve kullanıcı doğrulanmamışsa login sayfasına gönder
-  if (isProtectedPageRequested && !hasVerifiedToken) {
-    const searchParams = new URLSearchParams(nextUrl.searchParams);
-    searchParams.set("next", nextUrl.pathname);
-    const loginUrl = new URL(`/login?${searchParams.toString()}`, url);
-    const response = NextResponse.redirect(loginUrl);
-    response.cookies.delete("token");
-    return response;
+  if (isProtectedPage && !token) {
+    const loginUrl = new URL(`/login?next=${encodeURIComponent(pathname)}`, request.url);
+    return NextResponse.redirect(loginUrl);
   }
 
-  // Diğer tüm durumlarda devam et
   return NextResponse.next();
 }
 
-// matcher'a korumalı sayfaları ve login, register sayfalarını ekleyelim
 export const config = {
   matcher: ["/login", "/register", "/shop/:path*", "/dropshipping/:path*"],
 };

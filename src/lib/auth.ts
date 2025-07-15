@@ -7,7 +7,7 @@ export const authOptions = {
     Auth0Provider({
       clientId: process.env.AUTH0_CLIENT_ID!,
       clientSecret: process.env.AUTH0_CLIENT_SECRET!,
-      issuer: process.env.AUTH0_ISSUER!, // Tam URL olmalı, örn: https://dev-xxxx.us.auth0.com
+      issuer: process.env.AUTH0_ISSUER!, 
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,

@@ -6,7 +6,6 @@ import { signIn } from "next-auth/react";
 import {
   Box,
   Button,
-  Divider,
   Stack,
   TextField,
   Typography,
@@ -29,7 +28,6 @@ export default function LoginPage() {
     const username = formData.get("username") as string;
     const password = formData.get("password") as string;
 
-    // signIn fonksiyonuyla credentials tabanlı giriş yapıyoruz, redirect false
     const res = await signIn("credentials", {
       redirect: false,
       username,
@@ -41,9 +39,10 @@ export default function LoginPage() {
 
     if (res?.error) {
       setError("Kullanıcı adı veya şifre yanlış");
+    } else if (res?.url) {
+      router.push(res.url);
     } else {
-      // Başarılı ise callbackUrl'ye yönlendir
-      router.push(res?.url || "/");
+      setError("Bilinmeyen bir hata oluştu");
     }
   };
 
