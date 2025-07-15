@@ -1,15 +1,10 @@
-Tabii Beyza! Aşağıda senin için oluşturduğum **tam ve profesyonel `README.md`** dosyasını bulabilirsin. Bunu doğrudan proje kök dizinine `README.md` olarak kaydedebilirsin:
 
----
 
-### ✅ `README.md` (tam içerik)
-
-````md
-# 🧵 Beyza Kilim
+### ✅ `Beyza Kilim` 
 
 Beyza Kilim, geleneksel Anadolu motiflerini modern dokunuşlarla sunan, el dokuması kilim ve halı satışı yapan bir e-ticaret platformudur. Sistem ayrıca **dropshipping iş ortaklığı** fırsatları da sunar. Geliştirilen frontend altyapısı **modern güvenlik sistemleriyle** desteklenmiş, kurumsal seviyede ölçeklenebilir şekilde inşa edilmiştir.
 
-🔗 [forms repository](https://github.com/beyza-acikgoz/next-auth)
+🔗 [project repository](https://github.com/beyza-acikgoz/next-auth)
 
 ---
 
